@@ -1,0 +1,41 @@
+from core.actions import find_and_click_image, check_image_present
+import time
+from utils.logger import debug
+from core.stop_controller import stop_controller
+from core.capture import get_bbs_screenshot
+ 
+def handle_end_menu():
+    last_icon = None
+    times_tried = 0
+ 
+    while not stop_controller.should_stop():
+        screenshot = get_bbs_screenshot()
+        icon_clicked = False
+ 
+        for icon in ["tap_screen", "cancel", "close", "network_error_retry", "close_rank_up", "retry", "tap_here_to_continue"]:
+            if find_and_click_image(f"assets/icons/{icon}.png", double_click=(icon == "tap_screen" or icon == "tap_here_to_continue"), screenshot=screenshot):
+                debug(f"[Game] Clicked '{icon}'.")
+                if icon == "retry":
+                    time.sleep(0.5)  # was 2 — tightened for sped-up game speed
+                    screenshot = get_bbs_screenshot()
+                    if check_image_present(f"assets/icons/close.png", screenshot):
+                        debug("[Game] Close button found, Didn't actually click the retry button. Trying again")
+                        continue
+                    else:
+                        return True
+                time.sleep(0.3)  # was 1 — tightened for sped-up game speed
+                last_icon = icon
+                times_tried = 0
+                icon_clicked = True
+                break
+ 
+        if not icon_clicked:
+            debug("[Game] No icon found.")
+            time.sleep(0.3)  # was 1 — tightened for sped-up game speed
+            times_tried += 1
+ 
+            # threshold raised from 5 to 15 to preserve ~same total patience
+            # window now that each check is 0.3s instead of 1s (was ~5s, now ~4.5s)
+            if times_tried > 15:
+                debug("[Game] No icon found. Exiting.")
+                return False
