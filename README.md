@@ -2,7 +2,6 @@
 
 An automated farming tool for Bleach: Brave Souls that can handle various game modes including point events, co-op, epic raids, sub stories, and brave battles.
 
-Check out the [tutorial](https://youtu.be/5Iqe13ydSzs?si=IZm7LfMLiDGNbXct) on how to get started
 
 > ⚠️ **Disclaimer**  
 > This project was originally built for personal use, and some parts of the code were vibe-coded or done in a rush.  
@@ -33,7 +32,7 @@ You can uninstall by searching "add or remove program" on the windows search bar
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/xJohnnyrl/bbs-auto-farmer.git
+git clone [https://github.com/Based-Shubham/BBS-Auto-Clicker.git]
 cd bbs-auto-farmer
 ```
 
