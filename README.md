@@ -48,52 +48,7 @@ pip install uv
 uv sync
 ```
 
-## Building Executable
-
-### Using the Build Script (Recommended)
-
-```bash
-python build_installer.py
-```
-
-This will automatically install PyInstaller if needed and create both the executable and installer.
-
-After building, the executable will be located at:
-
-- `dist/bbs_auto_farmer.exe`
-
-### Executable Behavior
-
-When running the executable:
-
-- **No Console Window**: Runs silently in the background
-- **Logs**: Will be created in `AppData/BBS Auto Farmer/logs/`
-- **Config**: Will be created in `AppData/BBS Auto Farmer/config/`
-- **Assets**: Are bundled within the executable
-- **Debug Mode**: Can be enabled in settings to show console window
-
-## Creating Installer
-
-### Using Inno Setup
-
-1. **Install Inno Setup**: Download from https://jrsoftware.org/isinfo.php
-2. **Build Installer**: Run the build script or manually:
-
-   ```bash
-   # Using build script (automatically detects Inno Setup)
-   python build_installer.py
-
-   # Manual Inno Setup compilation
-   "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
-   ```
-
-### Installer Features
-
-- **Silent Installation**: No console window during installation
-- **AppData Storage**: Logs and config stored in user's AppData directory
-- **Desktop Shortcut**: Optional desktop icon creation
-- **Start Menu**: Adds to Windows Start Menu
-- **Uninstaller**: Proper cleanup on uninstall
+Just Run [run.vbs]
 
 ## Project Structure
 
