@@ -210,11 +210,6 @@ Enable debug mode in settings to see detailed logs:
 - Logs all clicks and actions
 - Helps identify issues
 
-## Support
-
-- **GitHub Issues**: [Report bugs or request features](https://github.com/xJohnnyrl/bbs-auto-farmer/issues)
-- **Twitter**: [@xJohnnyrl](https://x.com/xJohnnyrl)
-- **YouTube**: Tutorial coming soon
 
 ## License
 
