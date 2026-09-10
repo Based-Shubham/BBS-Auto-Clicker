@@ -11,7 +11,7 @@ from utils.settings import settings
 from core.logic.collect_tickets import handle_tickets
 from core.capture import get_bbs_screenshot
 
-def epic_raid_stage():
+def epic_raid_stage(coop: bool = False):
     stop_controller.reset() 
     
     banner = prepare_game_execution(lambda: stop_controller.stop())
@@ -43,8 +43,11 @@ def epic_raid_stage():
             if settings["auto_set_boost_to_max"]:
                 find_and_click_image("assets/icons/no_boost_coop_check.png", threshold=0.9, screenshot=screenshot)
 
-            
-        elif check_image_present("assets/icons/start_quest_epic_raid.png", screenshot=screenshot):
+        # Solo-only shortcut: some create-party screens show the start button
+        # directly without needing to set the room public first. Gated out of
+        # coop mode so a coop run always goes through public_small/confirm
+        # below and actually opens the room for others to join.
+        elif not coop and check_image_present("assets/icons/start_quest_epic_raid.png", screenshot=screenshot):
             debug("[Stage] Create party screen, starting quest solo.")
             if find_and_click_image("assets/icons/start_quest_epic_raid.png", screenshot=screenshot):
                 time.sleep(0.3)  # popup transition
@@ -60,9 +63,12 @@ def epic_raid_stage():
                 in_menu = True
                 while in_menu:
                     screenshot = get_bbs_screenshot()
-                    if (not check_image_present("assets/icons/epic_raid_locked.png", screenshot=screenshot)):
-                        # removed empty_epic_raid.png check — no longer waits for other
-                        # members to join before attempting to start solo
+                    still_waiting = check_image_present("assets/icons/epic_raid_locked.png", screenshot=screenshot)
+                    if coop:
+                        # Coop mode actually waits for someone to join, not
+                        # just for the room to unlock.
+                        still_waiting = still_waiting or check_image_present("assets/icons/empty_epic_raid.png", screenshot=screenshot)
+                    if not still_waiting:
                         if (find_and_click_image("assets/icons/start_quest_epic_raid.png", screenshot=screenshot)):
                             time.sleep(0.3)  # was 0.5 — tightened
                             screenshot = get_bbs_screenshot()
@@ -72,12 +78,13 @@ def epic_raid_stage():
                                     error("[Stage] Failed to start coop.")
                                     find_and_click_image("assets/icons/start_raid.png", screenshot=screenshot)
                                     in_menu = False
-                                    time.sleep(10)
+                                    time.sleep(3)  # was 10 — cooldown, not a local transition
                                 else:
                                     find_and_click_image("assets/icons/cancel.png", screenshot=screenshot)
                             else:
                                 in_menu = False
-                                time.sleep(10)
+                                time.sleep(3)  # was 10 — quest-load wait, kept conservative
+                    # no else — if still_waiting, keep looping and waiting
         
        
         elif check_image_present("assets/icons/start_quest_failed.png", screenshot=screenshot):

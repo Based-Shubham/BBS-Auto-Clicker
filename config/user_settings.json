@@ -1,5 +1,5 @@
 {
-  "max_orbs": 60,
+  "max_orbs": 250,
   "use_revive_candles": false,
   "auto_focus_bbs": false,
   "auto_set_boost_to_max": true,

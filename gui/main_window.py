@@ -170,6 +170,9 @@ class MainWindow(QMainWindow):
     
     def confirm_and_start_epic_raid(self):
         self.confirm_and_start_stage("Epic Raid Stage", epic_raid_stage, include_settings=['max_orbs', 'max_tickets', 'use_revive_candles', 'auto_set_boost_to_max'])
+
+    def confirm_and_start_epic_raid_coop(self):
+        self.confirm_and_start_stage("Epic Raid Stage (Co-Op)", lambda: epic_raid_stage(coop=True), include_settings=['max_orbs', 'max_tickets', 'use_revive_candles', 'auto_set_boost_to_max'])
     
     def confirm_and_start_special_moves(self):
         self.confirm_and_start_stage("Special Moves Stage", special_moves_stage, include_settings=[ 'use_revive_candles'])
@@ -224,6 +227,12 @@ class MainWindow(QMainWindow):
         btn_epic_raid.setObjectName("dangerButton")
         btn_epic_raid.clicked.connect(self.confirm_and_start_epic_raid)
         layout.addWidget(btn_epic_raid)
+        layout.addSpacing(12)
+
+        btn_epic_raid_coop = QPushButton("Start Epic Raid (Co-Op)")
+        btn_epic_raid_coop.setObjectName("dangerButton")
+        btn_epic_raid_coop.clicked.connect(self.confirm_and_start_epic_raid_coop)
+        layout.addWidget(btn_epic_raid_coop)
         layout.addSpacing(12)
 
         btn_special_moves = QPushButton("Start Special Moves")
